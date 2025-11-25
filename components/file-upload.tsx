@@ -165,31 +165,48 @@ export function FileUpload() {
       <CardContent className="p-8">
         {/* Workflow Selector */}
         {workflows.length > 0 ? (
-          <div className="mb-6">
+          <div className="mb-6"> {/* This is the wrapper for the label and the select-container */}
             <label
               htmlFor="workflow"
               className="block text-sm font-semibold mb-3"
             >
               Select Workflow
             </label>
-            <select
-              id="workflow"
-              value={selectedWorkflow}
-              onChange={(e) => {
-                setSelectedWorkflow(e.target.value)
-                setFiles([]) // Clear files on workflow change
-                setUploadStatus(null) // Clear any status messages
-              }}
-              className="w-full px-4 py-3 rounded-lg border border-muted-foreground/25 bg-background focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-            >
-              <option value="">Select a workflow...</option>
-              {workflows.map((workflow) => (
-                <option key={workflow.id} value={workflow.id}>
-                  {workflow.name}
-                  {workflow.description && ` - ${workflow.description}`}
-                </option>
-              ))}
-            </select>
+            <div className="relative"> {/* No fixed height here, let it adapt to select */}
+              <select
+                id="workflow"
+                value={selectedWorkflow}
+                onChange={(e) => {
+                  setSelectedWorkflow(e.target.value);
+                  setFiles([]); // Clear files on workflow change
+                  setUploadStatus(null); // Clear any status messages
+                }}
+                className="appearance-none w-full px-4 py-3 pr-8 rounded-lg border border-muted-foreground/25 bg-background focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              >
+                <option value="">Select a workflow...</option>
+                {workflows.map((workflow) => (
+                  <option key={workflow.id} value={workflow.id}>
+                    {workflow.name}
+                    {workflow.description && ` - ${workflow.description}`}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3"> {/* Restored inset-y-0 and flex items-center */}
+                <svg
+                  className="h-5 w-5 text-muted-foreground"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.24a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.12 1.004l-3.25 3.5a.75.75 0 01-1.12 0l-3.25-3.5a.75.75 0 01.04-1.06z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">

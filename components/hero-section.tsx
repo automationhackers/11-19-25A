@@ -5,6 +5,7 @@ import { Magnetic } from "@/components/ui/shadcn-io/magnetic";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRef } from "react";
+import Link from "next/link";
 import {
   Zap,
   Workflow,
@@ -40,14 +41,10 @@ export function HeroSection() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
           <Magnetic>
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg rounded-xl shadow-2xl shadow-purple-500/50">
-              Start Automating <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Magnetic>
-
-          <Magnetic>
-            <Button size="lg" variant="outline" className="px-8 py-6 text-lg rounded-xl">
-              Watch Demo
+            <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg rounded-xl shadow-2xl shadow-purple-500/50">
+              <Link href="/protected">
+                Start Automating <ArrowRight className="ml-2 w-5 h-5" />
+              </Link>
             </Button>
           </Magnetic>
         </div>

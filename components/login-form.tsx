@@ -54,13 +54,13 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
-        <CardContent className="grid p-0 md:grid-cols-2">
+        <CardContent className="grid p-0">
           <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your AutomateFlow account
+                  Login to your {process.env.NEXT_PUBLIC_COMPANY_NAME || "AutomateFlow"} account
                 </p>
               </div>
               {error && (
@@ -112,29 +112,6 @@ export function LoginForm({
               </Field>
             </FieldGroup>
           </form>
-          <div className="relative hidden md:block bg-gradient-to-br from-purple-600 via-pink-500 to-purple-700">
-            <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/50 via-transparent to-pink-600/50" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-2xl flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-workflow"
-                >
-                  <rect width="8" height="8" x="3" y="3" rx="2" />
-                  <path d="M7 11v4a2 2 0 0 0 2 2h4" />
-                  <rect width="8" height="8" x="13" y="13" rx="2" />
-                </svg>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
       <FieldDescription className="px-6 text-center">
