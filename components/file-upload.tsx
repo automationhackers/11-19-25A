@@ -23,6 +23,12 @@ export function FileUpload() {
     // Don't auto-select - user must consciously choose workflow
   }, [])
 
+  const MAX_UPLOAD_SIZE = 4.5 * 1000 * 1000; // 4.5 MB (decimal) in bytes, to match Vercel's limit
+
+  const getTotalFilesSize = (fileList: File[]): number => {
+    return fileList.reduce((acc, file) => acc + file.size, 0);
+  };
+
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(true)
@@ -36,14 +42,51 @@ export function FileUpload() {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     setIsDragging(false)
+    setUploadStatus(null); // Clear previous status on new file selection
 
     const droppedFiles = Array.from(e.dataTransfer.files)
+    const currentTotalSize = getTotalFilesSize(files);
+    const newFilesTotalSize = getTotalFilesSize(droppedFiles);
+
+    if (currentTotalSize + newFilesTotalSize > MAX_UPLOAD_SIZE) {
+      setUploadStatus(
+        `Total file size exceeds the 4.5 MB limit. Current: ${(
+          currentTotalSize /
+          (1000 * 1000)
+        ).toFixed(2)} MB, Adding: ${(
+          newFilesTotalSize /
+          (1000 * 1000)
+        ).toFixed(2)} MB.`
+      );
+      return;
+    }
+
     setFiles(prev => [...prev, ...droppedFiles])
   }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      setUploadStatus(null); // Clear previous status on new file selection
       const selectedFiles = Array.from(e.target.files)
+      const currentTotalSize = getTotalFilesSize(files);
+      const newFilesTotalSize = getTotalFilesSize(selectedFiles);
+
+      if (currentTotalSize + newFilesTotalSize > MAX_UPLOAD_SIZE) {
+        setUploadStatus(
+                  `Total file size exceeds the 4.5 MB limit. Current: ${(
+                    currentTotalSize /
+                    (1000 * 1000)
+                  ).toFixed(2)} MB, Adding: ${(
+                    newFilesTotalSize /
+                    (1000 * 1000)
+                  ).toFixed(2)} MB.`        );
+        // Clear the input to allow re-selection
+        if (fileInputRef.current) {
+          e.target.value = "";
+        }
+        return;
+      }
+
       setFiles(prev => [...prev, ...selectedFiles])
     }
   }
@@ -53,54 +96,67 @@ export function FileUpload() {
   }
 
   const handleUpload = async () => {
+    // --- All validation happens first ---
     if (files.length === 0) {
-      setUploadStatus("Please select at least one file")
-      return
+      setUploadStatus("Please select at least one file");
+      return;
     }
 
     if (!selectedWorkflow) {
-      setUploadStatus("Please select a workflow")
-      return
+      setUploadStatus("Please select a workflow");
+      return;
     }
 
-    const workflow = workflows.find((w) => w.id === selectedWorkflow)
+    const workflow = workflows.find((w) => w.id === selectedWorkflow);
     if (!workflow) {
-      setUploadStatus("Selected workflow not found")
-      return
+      setUploadStatus("Selected workflow not found");
+      return;
     }
 
-    setUploading(true)
-    setUploadStatus(null)
+    const totalCurrentUploadSize = getTotalFilesSize(files);
+    if (totalCurrentUploadSize > MAX_UPLOAD_SIZE) {
+      setUploadStatus(
+        `Upload cancelled: Total file size (${(
+          totalCurrentUploadSize /
+          (1000 * 1000)
+        ).toFixed(2)} MB) exceeds the 4.5 MB limit.`
+      );
+      return;
+    }
+
+    // --- If validation passes, proceed with upload ---
+    setUploading(true);
+    setUploadStatus(null);
 
     try {
       // Create FormData to send files
-      const formData = new FormData()
+      const formData = new FormData();
       files.forEach((file, index) => {
-        formData.append(`file${index}`, file)
-      })
+        formData.append(`file${index}`, file);
+      });
 
       // Send to our API route which forwards to n8n
       // This avoids CORS issues and keeps bearer tokens server-side
       const response = await fetch(`/api/upload?workflowId=${selectedWorkflow}`, {
         method: "POST",
         body: formData,
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || `Upload failed: ${response.statusText}`)
+        throw new Error(result.error || `Upload failed: ${response.statusText}`);
       }
 
-      setUploadStatus(`Successfully uploaded ${files.length} file(s) to ${workflow.name}!`)
-      setFiles([]) // Clear files after successful upload
+      setUploadStatus(`Successfully uploaded ${files.length} file(s) to ${workflow.name}!`);
+      setFiles([]); // Clear files after successful upload
     } catch (error) {
-      console.error("Upload error:", error)
+      console.error("Upload error:", error);
       setUploadStatus(
         error instanceof Error ? error.message : "Upload failed. Please try again."
-      )
+      );
     } finally {
-      setUploading(false)
+      setUploading(false);
     }
   }
 
