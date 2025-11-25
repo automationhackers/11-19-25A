@@ -135,7 +135,7 @@ export function FileUpload() {
           <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               No workflows configured. Please add workflow configuration to your
-              .env.local file.
+              environment variables.
             </p>
           </div>
         )}
