@@ -26,7 +26,7 @@ export function AuthButton() {
 
     // Cleanup subscription on unmount
     return () => {
-      authListener?.unsubscribe();
+      authListener?.subscription?.unsubscribe();
     };
   }, []); // Empty dependency array means this runs once on mount
 
