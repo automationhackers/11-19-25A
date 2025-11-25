@@ -43,8 +43,8 @@ export function LoginForm({
         return
       }
 
-      router.push("/protected")
-      router.refresh()
+      // Use full page reload to ensure cookies sync and server components update
+      window.location.href = "/protected"
     } catch (err) {
       setError("An unexpected error occurred")
       setLoading(false)
