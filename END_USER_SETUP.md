@@ -67,7 +67,7 @@ Before you start, gather these items:
    ```env
    # SUPABASE CONFIGURATION
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
    # WORKFLOW 1
    NEXT_PUBLIC_WORKFLOW_1_NAME="Receipt Processing"
@@ -107,7 +107,7 @@ Supabase provides user login functionality. It's free for small projects!
 4. **Add to Your `.env.local` File**
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJxxx...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxx...
    ```
    (Replace with your actual values)
 

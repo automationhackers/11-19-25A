@@ -63,7 +63,7 @@ The `.env.local` file stores all sensitive configuration:
 ```env
 # Supabase (Auth provider)
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJxxx...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxx...
 
 # Workflow 1
 NEXT_PUBLIC_WORKFLOW_1_NAME="Receipt Processing"
@@ -304,7 +304,7 @@ Let's get authentication set up! We'll use Supabase (it's free for small project
 **Step 3: Add to .env.local**
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJxxx...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxx...
 ```
 
 **Step 4: Enable Email Authentication**
@@ -452,7 +452,7 @@ npm run dev
 ```
 1. Verify Supabase credentials:
    - Check NEXT_PUBLIC_SUPABASE_URL
-   - Check NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+   - Check NEXT_PUBLIC_SUPABASE_ANON_KEY
    - Make sure they match Supabase dashboard
 
 2. Check Supabase Auth settings:

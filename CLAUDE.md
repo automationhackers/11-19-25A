@@ -143,7 +143,7 @@ The user you're helping is setting up this application for their customers. They
 3. Add to `.env.local`:
    ```env
    NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJxxx...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJxxx...
    ```
 4. Configure Supabase Auth:
    - Enable Email authentication
