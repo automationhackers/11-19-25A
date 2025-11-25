@@ -175,7 +175,11 @@ export function FileUpload() {
             <select
               id="workflow"
               value={selectedWorkflow}
-              onChange={(e) => setSelectedWorkflow(e.target.value)}
+              onChange={(e) => {
+                setSelectedWorkflow(e.target.value)
+                setFiles([]) // Clear files on workflow change
+                setUploadStatus(null) // Clear any status messages
+              }}
               className="w-full px-4 py-3 rounded-lg border border-muted-foreground/25 bg-background focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             >
               <option value="">Select a workflow...</option>
